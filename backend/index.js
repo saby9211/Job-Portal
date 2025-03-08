@@ -22,7 +22,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin:'http://localhost:5175', // host of frontend
+    origin:'http://localhost:5173', // host of frontend
     credentials:true
 };
 
