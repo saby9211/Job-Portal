@@ -69,10 +69,10 @@ const Profile = () => {
           {isResume ? (
             <a
               target="blank"
-              href="https://www.youtube.com/@SupreetSingh946"
+              href={user?.profile?.resume}
               className="text-blue-500 w-full hover:underline cursor-pointer"
             >
-              Patel Mern Stack
+              {user?.profile?.resumeOriginalName}
             </a>
           ) : (
             <span>NA</span>
