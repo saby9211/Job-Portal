@@ -8,50 +8,64 @@ export const register = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, password, role } = req.body;
         console.log(fullname, email, phoneNumber, password, role);
-        
-        // checking for missing field
-        if(!fullname || !email || !phoneNumber || !password || !role) {
-            return res.status(400).json({
-                message : "Something is missing.",
-                success : false
-            });
-        };
-        const file = req.file;
-        const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
-
-        // checking if email is already existing
-        const user = await User.findOne({email});
-        if(user) {
+        // Checking for missing fields
+        if (!fullname || !email || !phoneNumber || !password || !role) {
             return res.status(400).json({
-                message : "User already exist with this email.",
-                success : false
+                message: "All fields are required.",
+                success: false,
             });
         }
 
-        // converting password to hash
+        // Checking if the email already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({
+                message: "User already exists with this email.",
+                success: false,
+            });
+        }
 
-        const hashedPassword = await bcrypt.hash(password, 10); // second param is len of hashed value
+        // Hashing the password
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        await User.create({
-            fullname, 
-            email, 
-            phoneNumber, 
-            password  : hashedPassword, 
-            role,
-            profile:{
-                profilePhoto: cloudResponse.secure_url,
+        // Handling file upload
+        let profilePhotoUrl = null;
+        if (req.file) {
+            try {
+                const fileUri = getDataUri(req.file);
+                const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+                profilePhotoUrl = cloudResponse.secure_url;
+            } catch (uploadError) {
+                return res.status(500).json({
+                    message: "Error uploading profile photo.",
+                    success: false,
+                });
             }
+        }
+
+        // Creating the user
+        await User.create({
+            fullname,
+            email,
+            phoneNumber,
+            password: hashedPassword,
+            role,
+            profile: {
+                profilePhoto: profilePhotoUrl || "", // Default to empty string if no photo
+            },
         });
 
         return res.status(201).json({
-            message : "Account created successfully.",
-            success : true
+            message: "Account created successfully.",
+            success: true,
         });
-
-    } catch(error) {
-        console.log(error); 
+    } catch (error) {
+        console.error("Error in register:", error);
+        return res.status(500).json({
+            message: "Something went wrong. Please try again later.",
+            success: false,
+        });
     }
 };
 
@@ -139,7 +153,7 @@ export const updateProfile = async (req, res) => {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
         // console.log(fullname, email, phoneNumber, bio, skills);
         
-        const file = req.file;
+        // const file = req.file;
         // if(!fullname || !email || !phoneNumber || !bio || !skills) {
         //     return res.status(400).json({
         //         message : "Something is missing.",
@@ -148,8 +162,22 @@ export const updateProfile = async (req, res) => {
         // };
 
         // cloudinary will come here
+        const file = req.file;
+        let cloudResponse;
         const fileUri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        console.log(fileUri)
+        if (file) {
+            try {
+                cloudResponse = cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+                    resource_type: "auto" // Auto-detects image, video, etc.
+                });
+            } catch (error) {
+                return res.status(500).json({
+                    message: "Error processing file upload.",
+                    success: false
+                });
+            }
+        }
 
         let skillsArray;
         if(skills) {
