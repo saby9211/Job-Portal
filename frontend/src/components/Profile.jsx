@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+  import React, { useState } from "react";
 import Navbar from "./shared/Navbar";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "./ui/button";
@@ -8,12 +8,13 @@ import { Label } from "@radix-ui/react-label";
 import AppliedJobTable from "./AppliedJobTable";
 import UpdateProfileDialog from "./UpdateProfileDialog";
 import { useSelector } from "react-redux";
+import useGetAppliedJobs from "@/hooks/useGetAppliedJobs";
 
 // const skills = ["Html", "CSS", "JavaScript", "Reactjs"];
 const isResume = true;
 
 const Profile = () => {
-  
+  useGetAppliedJobs();
   const [open, setOpen] = useState(false);
   
   const {user} = useSelector(store => store.auth);
@@ -21,17 +22,17 @@ const Profile = () => {
   return (
     <div>
       <Navbar />
-      <div className="max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8">
+      <div className="max-w-4xl p-8 mx-auto my-5 bg-white border border-gray-200 rounded-2xl">
         <div className="flex justify-between">
           <div className="flex items-center gap-4">
-            <Avatar className="h-24 w-24">
+            <Avatar className="w-24 h-24">
               <AvatarImage
                 src="https://imgs.search.brave.com/UZnku52tbIeCtnz5QNy090dGCvvC9RHqGGbA32KdKUU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNDk4/MzIzNTA1L3Bob3Rv/L2J1c2luZXNzcGVv/cGxlLXVzaW5nLWRp/Z2l0YWwtdGFibGV0/LXRvZ2V0aGVyLmpw/Zz9zPTYxMng2MTIm/dz0wJms9MjAmYz0x/WTVHTm0yM1AyU0NS/TzBMdC00Umd1TUVX/SldtRnYtNkE3SzNm/MlljUHFFPQ"
                 alt="profile"
               />
             </Avatar>
             <div>
-              <h1 className="font-medium text-xl">{user?.fullname}</h1>
+              <h1 className="text-xl font-medium">{user?.fullname}</h1>
               <p>
                 {user?.profile?.bio}
               </p>
@@ -65,12 +66,12 @@ const Profile = () => {
         </div>
 
         <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label className="text-md font-bold">Resume</Label>
+          <Label className="font-bold text-md">Resume</Label>
           {isResume ? (
             <a
               target="blank"
               href={user?.profile?.resume}
-              className="text-blue-500 w-full hover:underline cursor-pointer"
+              className="w-full text-blue-500 cursor-pointer hover:underline"
             >
               {user?.profile?.resumeOriginalName}
             </a>
@@ -80,7 +81,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="max-w-4xl mx-auto bg-white rounded-2xl">
-        <h1 className="font-bold text-lg my-5">Applied Jobs</h1>
+        <h1 className="my-5 text-lg font-bold">Applied Jobs</h1>
         {/* Application Job Table */}
         <AppliedJobTable />
       </div>

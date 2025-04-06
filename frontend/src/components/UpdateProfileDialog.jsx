@@ -90,7 +90,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
           </DialogHeader>
           <form onSubmit={submitHandler}>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid items-center grid-cols-4 gap-4">
                 <Label htmlFor="name" className="text-right">
                   Name
                 </Label>
@@ -103,7 +103,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid items-center grid-cols-4 gap-4">
                 <Label htmlFor="email" className="text-right">
                   Email
                 </Label>
@@ -116,7 +116,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid items-center grid-cols-4 gap-4">
                 <Label htmlFor="number" className="text-right">
                   Number
                 </Label>
@@ -128,7 +128,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid items-center grid-cols-4 gap-4">
                 <Label htmlFor="bio" className="text-right">
                   Bio
                 </Label>
@@ -140,7 +140,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid items-center grid-cols-4 gap-4">
                 <Label htmlFor="skills" className="text-right">
                   Skills
                 </Label>
@@ -152,7 +152,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="grid items-center grid-cols-4 gap-4">
                 <Label htmlFor="file" className="text-right">
                   Resume
                 </Label>
@@ -170,7 +170,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
               {loading ? (
                 <Button className="w-full my-4">
                   {" "}
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Please wait{" "}
                 </Button>
               ) : (
                 <Button type="submit" className="w-full my-4">
