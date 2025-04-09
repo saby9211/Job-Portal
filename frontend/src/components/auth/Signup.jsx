@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../shared/Navbar";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "@/components/ui/input";
@@ -21,7 +21,7 @@ const Signup = () => {
     file: "",
   });
 
-  const { loading } = useSelector((store) => store.auth);
+  const { loading, user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -67,16 +67,20 @@ const Signup = () => {
       dispatch(setLoading(false));
     }
   };
-
+  useEffect(() => {
+    if(user) {
+      navigate("/");
+    }
+  }, [])
   return (
     <div>
       <Navbar />
-      <div className="flex items-center justify-center max-w-7xl mx-auto">
+      <div className="flex items-center justify-center mx-auto max-w-7xl">
         <form
           onSubmit={submitHandler}
-          className="w-1/2 border border-gray-200 rounded-md p-4 my-10"
+          className="w-1/2 p-4 my-10 border border-gray-200 rounded-md"
         >
-          <h1 className="font-bold text-xl mb-5">Sign Up</h1>
+          <h1 className="mb-5 text-xl font-bold">Sign Up</h1>
           <div className="my-2">
             <Label>Full Name</Label>
             <Input
@@ -159,7 +163,7 @@ const Signup = () => {
           {loading ? (
             <Button className="w-full my-4">
               {" "}
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" /> Please wait{" "}
             </Button>
           ) : (
             <Button type="submit" className="w-full my-4">

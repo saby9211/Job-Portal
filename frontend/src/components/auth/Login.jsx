@@ -12,6 +12,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading, setUser } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
+import { useEffect } from "react";
 const Login = () => {
   const [input, setInput] = useState({
     email: "",
@@ -19,7 +20,7 @@ const Login = () => {
     role: "",
   });
 
-  const { loading } = useSelector(store => store.auth);
+  const { loading, user } = useSelector(store => store.auth);
   const navigate = useNavigate();
   const dispatch=useDispatch();
   const changeEventHandler = (e) => {
@@ -51,15 +52,21 @@ const Login = () => {
   }
 
   };
+  useEffect(() => {
+    if(user) {
+      navigate("/");
+    }
+  }, [])
+
   return (
     <div>
       <Navbar />
-      <div className="flex items-center justify-center max-w-7xl mx-auto">
+      <div className="flex items-center justify-center mx-auto max-w-7xl">
         <form
           onSubmit={submitHandler}
-          className="w-1/2 border border-gray-200 rounded-md p-4 my-10"
+          className="w-1/2 p-4 my-10 border border-gray-200 rounded-md"
         >
-          <h1 className="font-bold text-xl mb-5">Login</h1>
+          <h1 className="mb-5 text-xl font-bold">Login</h1>
 
           <div className="my-2">
             <Label>Email</Label>
@@ -110,7 +117,7 @@ const Login = () => {
             </RadioGroup>
           </div>
           {
-                        loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Login</Button>
+                        loading ? <Button className="w-full my-4"> <Loader2 className='w-4 h-4 mr-2 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Login</Button>
                     }
           <span className="text-sm">
             Don't have an account?{" "}
