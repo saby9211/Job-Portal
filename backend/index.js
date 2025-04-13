@@ -21,10 +21,23 @@ app.use(express.json()); // because our request comes as json format
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
-const corsOptions = {
-    origin:'http://localhost:5173', // host of frontend
-    credentials:true
-};
+const allowedOrigins = ['http://localhost:5173', 'https://rojgaarkhojo.netlify.app'];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
+// const corsOptions = {
+//     origin:'http://localhost:5173', // host of frontend
+//     credentials:true
+// };
 
 app.use(cors(corsOptions));
 
