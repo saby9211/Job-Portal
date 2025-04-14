@@ -1,4 +1,4 @@
-  import React, { useState } from "react";
+import React, { useState } from "react";
 import Navbar from "./shared/Navbar";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "./ui/button";
@@ -18,6 +18,7 @@ const Profile = () => {
   const [open, setOpen] = useState(false);
   
   const {user} = useSelector(store => store.auth);
+  // console.log(user);
 
   return (
     <div>
