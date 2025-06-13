@@ -78,7 +78,7 @@ const JobDescription = () => {
           className={`rounded-lg ${
             isApplied
               ? "bg-gray-600 cursor-not-allowed"
-              : "bg-[#7209b7] hover:bg-[#5f32ad]"
+              : "bg-[#7209b7] hover:bg-[#00809D]"
           }`}
         >
           {isApplied ? "Already Applied" : "Apply Now"}
