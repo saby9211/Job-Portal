@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   'http://localhost:5173',            // for local development
-  'https://rojgaarkhojo.netlify.app' // for production frontend
+  'https://rozgaar-khojo-sable-alpha.vercel.app' // for production frontend
 ];
 
 app.use(cors({
