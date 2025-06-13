@@ -22,7 +22,8 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 const allowedOrigins = [
-  'http://localhost:5173',            // for local development
+  'http://localhost:5173',
+  'https://rojgaar-khojo.vercel.app/',            // for local development
   'https://rojgaar-khojo-85lbffmnw-supreet-singhs-projects-07b25701.vercel.app/',
   'https://rojgaar-khojo-pbcxgv438-supreet-singhs-projects-07b25701.vercel.app/' // for production frontend
 ];
