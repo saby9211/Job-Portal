@@ -23,20 +23,16 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://rojgaar-khojo.vercel.app/',            // for local development
-  'https://rojgaar-khojo-85lbffmnw-supreet-singhs-projects-07b25701.vercel.app/',
-  'https://rojgaar-khojo-pbcxgv438-supreet-singhs-projects-07b25701.vercel.app/' // for production frontend
+  'https://rojgaar-khojo.vercel.app/' // for production frontend
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
+  origin: '*',
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  credentials: false     // note: with '*' you cannot use credentials:true
+}));
+app.options('*', cors({
+  origin: '*'
 }));
 
 // const corsOptions = {
