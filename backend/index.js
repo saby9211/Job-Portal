@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   'http://localhost:5173',            // for local development
-  'https://rojgaar-khojo.vercel.app/' // for production frontend
+  'https://rojgaar-khojo-85lbffmnw-supreet-singhs-projects-07b25701.vercel.app/' // for production frontend
 ];
 
 app.use(cors({
