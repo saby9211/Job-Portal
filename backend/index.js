@@ -1,64 +1,45 @@
+// index.js
 import express from "express";
-import cookieParser from "cookie-parser"; // so that we can access our cookies stored in browser at backend
-import cors from "cors";
-import dotenv from "dotenv";
-import connectDB from "./utils/db.js";
-import userRoute from "./routes/user.route.js"
-import companyRoute from "./routes/company.route.js"
-import jobRoute from "./routes/job.route.js"
-import applicationRoute from "./routes/application.route.js"
+import cookieParser from "cookie-parser";
+import cors         from "cors";
+import dotenv       from "dotenv";
+import connectDB    from "./utils/db.js";
+import userRoute    from "./routes/user.route.js";
+import companyRoute from "./routes/company.route.js";
+import jobRoute     from "./routes/job.route.js";
+import applicationRoute from "./routes/application.route.js";
 
-
-dotenv.config({});
+dotenv.config();
 
 const app = express();
 
+// ─── CORS MIDDLEWARE ────────────────────────────────────────────────────────────
+// Move this *before* any body‑parser or routes.
+app.use(cors({
+  origin: "*",               // Allow all origins
+  methods: ["GET","POST","PUT","PATCH","DELETE","OPTIONS"],
+  credentials: false         // no cookies/auth headers with '*'
+}));
 
+// Make sure preflight OPTIONS are handled by CORS
+app.options("*", cors({
+  origin: "*"
+}));
 
-
-// middlewares
-app.use(express.json()); // because our request comes as json format
-app.use(express.urlencoded({extended:true}));
+// ─── BODY PARSERS & COOKIES ─────────────────────────────────────────────────────
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://rojgaar-khojo.vercel.app/' // for production frontend
-];
-
-app.use(cors({
-  origin: '*',
-  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
-  credentials: false     // note: with '*' you cannot use credentials:true
-}));
-app.options('*', cors({
-  origin: '*'
-}));
-
-// const corsOptions = {
-//     origin:'http://localhost:5173', // host of frontend
-//     credentials:true
-// };
-
-// app.use(cors(corsOptions));
-
-const PORT = process.env.PORT || 3000;
-
-// api's 
-app.use("/api/v1/user", userRoute);
-app.use("/api/v1/company", companyRoute);
-app.use("/api/v1/job", jobRoute);
+// ─── ROUTES ─────────────────────────────────────────────────────────────────────
+app.use("/api/v1/user",        userRoute);
+app.use("/api/v1/company",     companyRoute);
+app.use("/api/v1/job",         jobRoute);
 app.use("/api/v1/application", applicationRoute);
 
-
-
-// "http://localhost:8000/api/v1/user/register"
-// "http://localhost:8000/api/v1/user/login"
-// "http://localhost:8000/api/v1/user/profile/update"
-
-
+// ─── START SERVER ───────────────────────────────────────────────────────────────
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    connectDB();
-    console.log(`Server running at ${PORT}`);
+  connectDB();
+  console.log(`Server running at port ${PORT}`);
 });
-
