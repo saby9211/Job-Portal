@@ -1,10 +1,10 @@
 {
-  "cleanUrls": true,
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html",
-      "permanent": false
-    }
-  ]
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html",
+      "permanent": false
+    }
+  ]
 }
